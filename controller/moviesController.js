@@ -1,64 +1,7 @@
-const movies = [
-    {
-        "id": "m1",
-        "title": "Inception",
-        "imageUrl": "https://example.com",
-        "rating": "8.8",
-        "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-        "createdAt": "2026-10-15T12:00:00Z",
-        "updatedAt": null
-    },
-    {
-        "id": "m2",
-        "title": "The Dark Knight",
-        "imageUrl": "https://example.com",
-        "rating": "9.0",
-        "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-        "createdAt": "2026-10-15T12:05:00Z",
-        "updatedAt": null
-    },
-    {
-        "id": "m3",
-        "title": "Interstellar",
-        "imageUrl": "https://example.com",
-        "rating": "8.7",
-        "description": "When Earth becomes uninhabitable, a team of explorers travels through a wormhole in space in an attempt to ensure humanity's survival.",
-        "createdAt": "2026-10-15T12:10:00Z",
-        "updatedAt": null
-    },
-    {
-        "id": "m4",
-        "title": "Spirited Away",
-        "imageUrl": "https://example.com",
-        "rating": "8.6",
-        "description": "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.",
-        "createdAt": "2026-10-15T12:15:00Z",
-        "updatedAt": null
-    },
-    {
-        "id": "m5",
-        "title": "Parasite",
-        "imageUrl": "https://example.com",
-        "rating": "8.5",
-        "description": "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
-        "createdAt": "2026-10-15T12:20:00Z",
-        "updatedAt": null
-    }
-]
+const movies = require("../data");
 
 
-
-//imprts
-const express = require("express");
-const app = express();
-
-
-//middlewares
-app.use(express.json());
-
-//routes
-//getAll
-app.get("/movies", (req, res) => {
+const getAllMovies = (req, res) => {
     try {
         res.status(200).json({
             ok: true,
@@ -72,11 +15,9 @@ app.get("/movies", (req, res) => {
             error: err.message
         })
     }
-})
+}
 
-
-//get single
-app.get("/movies/:id", (req, res) => {
+const getSingleMovie = (req, res) => {
     try {
         const movieId = req.params.id;
         const movie = movies.find(m => m.id === movieId)
@@ -101,10 +42,10 @@ app.get("/movies/:id", (req, res) => {
         })
     }
 
-})
+}
 
-//create
-app.post("/movies", (req, res) => {
+
+const createMovie = (req, res) => {
     try {
         const { title, imageUrl, rating = 2, description = "unknown" } = req.body;
         if (!title || !imageUrl) {
@@ -139,11 +80,10 @@ app.post("/movies", (req, res) => {
             error: err.message
         })
     }
-})
+}
 
 
-//update
-app.patch("/movies/:id", (req, res) => {
+const updateMovie =  (req, res) => {
     const movieId = req.params.id;
     try {
         // const existingObject = movies.find(m => m.id === movieId);
@@ -184,11 +124,9 @@ app.patch("/movies/:id", (req, res) => {
             error: err.message
         })
     }
-})
+}
 
-
-//delete
-app.delete("/movies/:id", (req, res) => {
+const deleteMovie = (req, res) => {
     const deleteId = req.params.id;
     try{
         const deleteIndex = movies.findIndex(m => m.id === deleteId);
@@ -213,7 +151,13 @@ app.delete("/movies/:id", (req, res) => {
             error: err.message
         })
     }
-})
-app.listen(3000, () => {
-    console.log("app is listening on port 3000");
-})
+}
+
+
+module.exports = {
+    getAllMovies,
+    getSingleMovie,
+    createMovie,
+    updateMovie,
+    deleteMovie
+}
