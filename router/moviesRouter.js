@@ -8,7 +8,7 @@ const {
     deleteMovie
 } = require("../controller/moviesController");
 
-router.get("", getAllMovies)
+
 router.get("/", getAllMovies);
 router.get("/:id", getSingleMovie);
 router.post("/", createMovie);
